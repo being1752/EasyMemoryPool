@@ -6,7 +6,6 @@
 
 #include "memory_manager.h"
 
-#define __builtin_expect(expr, val) (expr)
 #define __plugin_unlikely(cond) __builtin_expect (!!(cond), 0)
 #define __plugin_likely(cond) __builtin_expect (!!(cond), 1)
 
