@@ -77,7 +77,6 @@ fragment_node *arena_node::allot_memory(uint32_t size)
 
     // 填充信息
     node->addr = tmp;
-    node->next = nullptr;
     node->size = size;
     node->status = true;
 
@@ -99,15 +98,9 @@ void leisure_node_manager::close()
 
 void leisure_node_manager::add_node(fragment_node *node)
 {
-    int size = node->size;
-    if(mp.count(size) == 0)
-    {
-        mp[size] = node;
-    }
-
     // 将节点插入到链表第一位
-    node->next = mp[size];
-    mp[size] = node;
+    int size = node->size;
+    mp[size].push_back(node);
 }
 
 fragment_node *leisure_node_manager::get_size(size_t size)
@@ -117,15 +110,14 @@ fragment_node *leisure_node_manager::get_size(size_t size)
         return nullptr;
     }
 
+    fragment_node* node = nullptr;
     // 将mp里size大小的链表的第一个节点提取，返回
-    auto node = mp[size];
-
-    // 防止空节点
-    if(__plugin_likely(node))
-    {
-        mp[size] = node->next;
-        node->next = nullptr;
+    if (__plugin_likely(mp[size].size() > 0)) {
+        node = mp[size].front();
+        node->status = true;
+        mp[size].pop_front();
     }
+
     return node;
 }
 
@@ -136,12 +128,6 @@ memory_manager::memory_manager()
 memory_manager::~memory_manager()
 {
     close();
-
-//     if(__plugin_likely(leisure_manager))
-//     {
-//         free(leisure_manager);
-//         leisure_manager = nullptr;
-//     }
 }
 
 void memory_manager::close()

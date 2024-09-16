@@ -16,9 +16,7 @@ struct fragment_node
     // 是否被使用
     bool status;
     // 内存块大小
-    uint16_t size;
-    // 下一个内存块地址，作为空闲内存块时使用
-    fragment_node* next;
+    uint32_t size;
 
     fragment_node() = delete;
     fragment_node(u_char* _addr, uint16_t _size, bool _status = true): addr(_addr), size(_size), status(_status) {}
@@ -60,7 +58,7 @@ public:
     fragment_node* get_size(size_t size);
 
 private:
-    std::unordered_map<size_t, fragment_node*> mp;
+    std::unordered_map<size_t, std::list<fragment_node*>> mp;
 };
 
 // 内存分配管理模块
