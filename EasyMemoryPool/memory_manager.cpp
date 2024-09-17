@@ -121,10 +121,6 @@ fragment_node *leisure_node_manager::get_size(size_t size)
     return node;
 }
 
-memory_manager::memory_manager()
-{
-}
-
 memory_manager::~memory_manager()
 {
     close();

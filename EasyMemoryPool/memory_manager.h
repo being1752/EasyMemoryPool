@@ -65,7 +65,7 @@ private:
 class memory_manager
 {
 public:
-    memory_manager();
+    memory_manager() = default;
     ~memory_manager();
     void  close();
     void* allot_memory(size_t size);
