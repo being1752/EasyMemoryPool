@@ -79,7 +79,8 @@
         },
         {
             "name": "macos-debug",
-            "displayName": "macOS Debug",
+          "displayName": "macOS Debug",
+
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/out/build/${presetName}",
             "installDir": "${sourceDir}/out/install/${presetName}",
