@@ -17,6 +17,8 @@ namespace starry_sky
 		bool status;
 		// 内存块大小
 		uint32_t size;
+		// 内存块下一个节点
+		fragment_node* next = nullptr;
 
 		fragment_node() = delete;
 		fragment_node(u_char* _addr, uint16_t _size, bool _status = true) : addr(_addr), size(_size), status(_status) {}
@@ -54,7 +56,7 @@ namespace starry_sky
 		fragment_node* get_size(size_t size);
 
 	private:
-		std::unordered_map<size_t, std::list<fragment_node*>> mp;
+		std::unordered_map<size_t, fragment_node*> mp;
 	};
 
 	// 内存分配管理模块

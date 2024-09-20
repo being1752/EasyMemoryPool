@@ -105,23 +105,33 @@ namespace starry_sky
 	{
 		// 将节点插入到链表第一位
 		int size = node->size;
-		mp[size].push_back(node);
+		if (__plugin_unlikely(mp.count(size) == 0)) 
+		{
+			mp[size] = node;
+			return;
+		}
+		node->next = mp[size];
+		node->status = false;
+		mp[size] = node;
 	}
 
 	fragment_node* leisure_node_manager::get_size(size_t size)
 	{
-		if (__plugin_unlikely(mp.count(size) == 0))
+		if (mp.count(size) == 0 || mp[size] == nullptr)
 		{
 			return nullptr;
 		}
 
 		fragment_node* node = nullptr;
 		// 将mp里size大小的链表的第一个节点提取，返回
-		if (__plugin_likely(mp[size].size() > 0)) {
-			node = mp[size].front();
-			node->status = true;
-			mp[size].pop_front();
+		if (__plugin_unlikely(mp[size] == nullptr))
+		{
+			return nullptr;
 		}
+
+		node = mp[size];
+		node->status = true;
+		mp[size] = node->next;
 
 		return node;
 	}
